@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Rendering;
@@ -8,6 +9,10 @@ public class Lander : MonoBehaviour
     public float force = 700f;
     public float turnLeftSpeed = 100f;
     public float turnRightSpeed = -100f;
+    public event EventHandler OnUpForce;
+    public event EventHandler OnRightForce;
+    public event EventHandler OnLeftForce;
+    public event EventHandler OnBeforeForce;
 
     private void Awake()
     {
@@ -16,17 +21,21 @@ public class Lander : MonoBehaviour
 
     private void FixedUpdate()
     {
+        OnBeforeForce?.Invoke(this, EventArgs.Empty);
         if (Keyboard.current.upArrowKey.isPressed || Keyboard.current.wKey.isPressed)
         {
             rb.AddForce(transform.up * Time.deltaTime * force);
+            OnUpForce?.Invoke(this, EventArgs.Empty);
         }
         else if (Keyboard.current.leftArrowKey.isPressed || Keyboard.current.aKey.isPressed)
         {
             rb.AddTorque(turnLeftSpeed * Time.deltaTime);
+            OnLeftForce?.Invoke(this, EventArgs.Empty);
         }
         else if (Keyboard.current.rightArrowKey.isPressed || Keyboard.current.dKey.isPressed)
         {
             rb.AddTorque(turnRightSpeed * Time.deltaTime);
+            OnRightForce?.Invoke(this, EventArgs.Empty);
         }
     }
 
@@ -62,5 +71,8 @@ public class Lander : MonoBehaviour
         float landingSpeedScore = (softLanding - relativeVelocity) * maxScoreLandingSpeed;
         Debug.Log("landingAngleScore: " + landingAngleScore);
         Debug.Log("landingSpeedScore: " + landingSpeedScore);
+
+        int score = Mathf.RoundToInt((landingAngleScore + landingSpeedScore) * landingPad.GetScoreMultiplier());
+        Debug.Log("Score: " + score);
     }
 }
