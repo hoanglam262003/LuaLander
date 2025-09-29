@@ -1,3 +1,4 @@
+using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -7,13 +8,16 @@ public class LandedUI : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI titleText;
     [SerializeField] private TextMeshProUGUI statsText;
+    [SerializeField] private TextMeshProUGUI buttonText;
     [SerializeField] private Button button;
+
+    private Action nextButtonClickAction;
 
     private void Awake()
     {
         button.onClick.AddListener(() =>
         {
-            SceneManager.LoadScene(0);
+            nextButtonClickAction();
         });
     }
     private void Start()
@@ -30,15 +34,19 @@ public class LandedUI : MonoBehaviour
             default:
             case Lander.LandingType.Success:
                 title = "SUCCESSFUL LANDING!";
+                ButtonNextLevelHandle();
                 break;
             case Lander.LandingType.Crash:
                 title = "<color=#ff0000>YOU CRASHED!</color>";
+                ButtonRetryLevelHandle();
                 break;
             case Lander.LandingType.BadAngle:
                 title = "<color=#ff0000>Bad Angle!</color>";
+                ButtonRetryLevelHandle();
                 break;
             case Lander.LandingType.WrongArea:
                 title = "<color=#ff0000>WRONG AREA!</color>";
+                ButtonRetryLevelHandle();
                 break;
         }
         titleText.text = title;
@@ -57,5 +65,23 @@ public class LandedUI : MonoBehaviour
     private void Hide()
     {
         gameObject.SetActive(false);
+    }
+
+    private void ButtonNextLevelHandle()
+    {
+        buttonText.text = "CONTINUE";
+        nextButtonClickAction = () =>
+        {
+            GameManager.Instance.NextLevel();
+        };
+    }
+
+    private void ButtonRetryLevelHandle()
+    {
+        buttonText.text = "RETRY";
+        nextButtonClickAction = () =>
+        {
+            GameManager.Instance.RetryLevel();
+        };
     }
 }

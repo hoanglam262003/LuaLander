@@ -68,12 +68,9 @@ public class Lander : MonoBehaviour
         {
             default:
             case State.WaitingToStart:
-                if (Keyboard.current.upArrowKey.isPressed ||
-                    Keyboard.current.wKey.isPressed ||
-                    Keyboard.current.leftArrowKey.isPressed ||
-                    Keyboard.current.aKey.isPressed ||
-                    Keyboard.current.rightArrowKey.isPressed ||
-                    Keyboard.current.dKey.isPressed)
+                if (GameInput.Instance.IsUpActionPressed() ||
+                    GameInput.Instance.IsLeftActionPressed() ||
+                    GameInput.Instance.IsRightActionPressed())
                 {
                     rb.gravityScale = GRAVITY_SCALE;
                     SetState(State.Normal);
@@ -82,26 +79,23 @@ public class Lander : MonoBehaviour
                 break;
             case State.Normal:
                 if (fuel <= 0f) return;
-                if (Keyboard.current.upArrowKey.isPressed ||
-                    Keyboard.current.wKey.isPressed ||
-                    Keyboard.current.leftArrowKey.isPressed ||
-                    Keyboard.current.aKey.isPressed ||
-                    Keyboard.current.rightArrowKey.isPressed ||
-                    Keyboard.current.dKey.isPressed)
+                if (GameInput.Instance.IsUpActionPressed() ||
+                    GameInput.Instance.IsLeftActionPressed() ||
+                    GameInput.Instance.IsRightActionPressed())
                 {
                     ConsumeFuel();
                 }
-                if (Keyboard.current.upArrowKey.isPressed || Keyboard.current.wKey.isPressed)
+                if (GameInput.Instance.IsUpActionPressed())
                 {
                     rb.AddForce(transform.up * Time.deltaTime * force);
                     OnUpForce?.Invoke(this, EventArgs.Empty);
                 }
-                else if (Keyboard.current.leftArrowKey.isPressed || Keyboard.current.aKey.isPressed)
+                else if (GameInput.Instance.IsLeftActionPressed())
                 {
                     rb.AddTorque(turnLeftSpeed * Time.deltaTime);
                     OnLeftForce?.Invoke(this, EventArgs.Empty);
                 }
-                else if (Keyboard.current.rightArrowKey.isPressed || Keyboard.current.dKey.isPressed)
+                else if (GameInput.Instance.IsRightActionPressed())
                 {
                     rb.AddTorque(turnRightSpeed * Time.deltaTime);
                     OnRightForce?.Invoke(this, EventArgs.Empty);
