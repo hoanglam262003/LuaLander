@@ -16,6 +16,7 @@ public class Lander : MonoBehaviour
     public event EventHandler OnLeftForce;
     public event EventHandler OnBeforeForce;
     public event EventHandler OnCoinPickUp;
+    public event EventHandler OnFuelPickUp;
     public event EventHandler<OnStateChangedEventArgs> OnStateChanged;
     public class OnStateChangedEventArgs : EventArgs
     {
@@ -110,7 +111,6 @@ public class Lander : MonoBehaviour
     {
         if (!collision.gameObject.TryGetComponent(out LandingPad landingPad))
         {
-            Debug.Log("Crashed on the terrain!");
             OnLanded?.Invoke(this, new OnLandedEventArgs
             {
                 landingType = LandingType.WrongArea,
@@ -126,7 +126,6 @@ public class Lander : MonoBehaviour
         float relativeVelocity = collision.relativeVelocity.magnitude;
         if (relativeVelocity > softLanding)
         {
-            Debug.Log("You landed too hard!");
             OnLanded?.Invoke(this, new OnLandedEventArgs
             {
                 landingType = LandingType.Crash,
@@ -143,7 +142,6 @@ public class Lander : MonoBehaviour
         float minDotVector = 0.9f;
         if (dotVector < minDotVector)
         {
-            Debug.Log("Landed bad angle!");
             OnLanded?.Invoke(this, new OnLandedEventArgs
             {
                 landingType = LandingType.BadAngle,
@@ -155,7 +153,6 @@ public class Lander : MonoBehaviour
             SetState(State.GameOver);
             return;
         }
-        Debug.Log("Landed successfully!");
 
         float maxScoreLandingAngle = 100f;
         float scoreDotVectorMultiplier = 10f;
@@ -182,6 +179,7 @@ public class Lander : MonoBehaviour
         {
             fuel += addFuel;
             if (fuel > maxFuel) fuel = maxFuel;
+            OnFuelPickUp?.Invoke(this, EventArgs.Empty);
             fuelPickUp.SelfDestroy();
         }
 

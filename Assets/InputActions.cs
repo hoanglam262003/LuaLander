@@ -117,6 +117,15 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""MenuAction"",
+                    ""type"": ""Button"",
+                    ""id"": ""bc716c43-623b-4c8f-a663-c32a2f6171cc"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -185,6 +194,17 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""action"": ""LanderRight"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""0a77774e-6c29-4c1c-9b90-a45f6f434621"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MenuAction"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -196,6 +216,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         m_Player_LanderUp = m_Player.FindAction("LanderUp", throwIfNotFound: true);
         m_Player_LanderLeft = m_Player.FindAction("LanderLeft", throwIfNotFound: true);
         m_Player_LanderRight = m_Player.FindAction("LanderRight", throwIfNotFound: true);
+        m_Player_MenuAction = m_Player.FindAction("MenuAction", throwIfNotFound: true);
     }
 
     ~@InputActions()
@@ -279,6 +300,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_LanderUp;
     private readonly InputAction m_Player_LanderLeft;
     private readonly InputAction m_Player_LanderRight;
+    private readonly InputAction m_Player_MenuAction;
     /// <summary>
     /// Provides access to input actions defined in input action map "Player".
     /// </summary>
@@ -302,6 +324,10 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Player/LanderRight".
         /// </summary>
         public InputAction @LanderRight => m_Wrapper.m_Player_LanderRight;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/MenuAction".
+        /// </summary>
+        public InputAction @MenuAction => m_Wrapper.m_Player_MenuAction;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -337,6 +363,9 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @LanderRight.started += instance.OnLanderRight;
             @LanderRight.performed += instance.OnLanderRight;
             @LanderRight.canceled += instance.OnLanderRight;
+            @MenuAction.started += instance.OnMenuAction;
+            @MenuAction.performed += instance.OnMenuAction;
+            @MenuAction.canceled += instance.OnMenuAction;
         }
 
         /// <summary>
@@ -357,6 +386,9 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @LanderRight.started -= instance.OnLanderRight;
             @LanderRight.performed -= instance.OnLanderRight;
             @LanderRight.canceled -= instance.OnLanderRight;
+            @MenuAction.started -= instance.OnMenuAction;
+            @MenuAction.performed -= instance.OnMenuAction;
+            @MenuAction.canceled -= instance.OnMenuAction;
         }
 
         /// <summary>
@@ -418,5 +450,12 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnLanderRight(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "MenuAction" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnMenuAction(InputAction.CallbackContext context);
     }
 }
