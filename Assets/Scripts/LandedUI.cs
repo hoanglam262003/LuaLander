@@ -8,14 +8,14 @@ public class LandedUI : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI titleText;
     [SerializeField] private TextMeshProUGUI statsText;
-    [SerializeField] private TextMeshProUGUI buttonText;
-    [SerializeField] private Button button;
+    [SerializeField] private TextMeshProUGUI continueButtonText;
+    [SerializeField] private Button continueButton;
 
     private Action nextButtonClickAction;
 
     private void Awake()
     {
-        button.onClick.AddListener(() =>
+        continueButton.onClick.AddListener(() =>
         {
             nextButtonClickAction();
         });
@@ -60,6 +60,7 @@ public class LandedUI : MonoBehaviour
     private void Show()
     {
         gameObject.SetActive(true);
+        continueButton.Select();
     }
 
     private void Hide()
@@ -69,7 +70,7 @@ public class LandedUI : MonoBehaviour
 
     private void ButtonNextLevelHandle()
     {
-        buttonText.text = "CONTINUE";
+        continueButtonText.text = "CONTINUE";
         nextButtonClickAction = () =>
         {
             GameManager.Instance.NextLevel();
@@ -78,7 +79,7 @@ public class LandedUI : MonoBehaviour
 
     private void ButtonRetryLevelHandle()
     {
-        buttonText.text = "RETRY";
+        continueButtonText.text = "RETRY";
         nextButtonClickAction = () =>
         {
             GameManager.Instance.RetryLevel();
