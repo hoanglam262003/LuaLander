@@ -109,11 +109,24 @@ public class Lander : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (!collision.gameObject.TryGetComponent(out LandingPad landingPad))
+        if (!collision.gameObject.TryGetComponent(out LandingPad landingPad) && !collision.gameObject.TryGetComponent(out BulletCannon bulletCannon))
         {
             OnLanded?.Invoke(this, new OnLandedEventArgs
             {
                 landingType = LandingType.WrongArea,
+                landingAngle = 0f,
+                landingSpeed = 0f,
+                scoreMultiplier = 0,
+                score = 0,
+            });
+            SetState(State.GameOver);
+            return;
+        }
+        if (collision.gameObject.TryGetComponent(out bulletCannon))
+        {
+            OnLanded?.Invoke(this, new OnLandedEventArgs
+            {
+                landingType = LandingType.Crash,
                 landingAngle = 0f,
                 landingSpeed = 0f,
                 scoreMultiplier = 0,
@@ -219,5 +232,10 @@ public class Lander : MonoBehaviour
     public float GetFuelAmountNormalized()
     {
         return fuel / maxFuel;
+    }
+
+    public State GetCurrentState()
+    {
+        return state;
     }
 }
