@@ -2827,6 +2827,7 @@ MonoBehaviour:
   gameLevelList:
   - {fileID: 2070788381462967472, guid: c2d1735eb9791f44b9a34068e85eea0f, type: 3}
   - {fileID: 2070788381462967472, guid: 49b54c7dbdb275a4a8b726a8d03dd531, type: 3}
+  - {fileID: 2070788381462967472, guid: 6bae2cc0589fc144984d02d957d8f8a9, type: 3}
   cinemachineCamera: {fileID: 266709462}
 --- !u!1 &1279836032
 GameObject:

@@ -4,7 +4,7 @@ public class BulletCannon : MonoBehaviour
 {
     [Header("Settings")]
     [SerializeField] private float speed = 10f;
-    [SerializeField] private float lifeTime = 3f;
+    [SerializeField] private float lifeTime = 20f;
 
     private Rigidbody2D rb;
     private Collider2D bulletCollider;
@@ -28,7 +28,7 @@ public class BulletCannon : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.GetComponent<FuelPickUp>() != null || other.GetComponent<Coins>() != null)
+        if (other.GetComponent<FuelPickUp>() != null || other.GetComponent<Coins>() != null || other.GetComponent<TowerDetection>() != null)
         {
             Physics2D.IgnoreCollision(bulletCollider, other);
             return;
