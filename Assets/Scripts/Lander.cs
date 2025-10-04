@@ -188,6 +188,20 @@ public class Lander : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collider2D)
     {
+        if (collider2D.TryGetComponent(out BulletCannon bullet))
+        {
+            OnLanded?.Invoke(this, new OnLandedEventArgs
+            {
+                landingType = LandingType.Crash,
+                landingAngle = 0f,
+                landingSpeed = 0f,
+                scoreMultiplier = 0,
+                score = 0,
+            });
+            SetState(State.GameOver);
+            Destroy(bullet.gameObject);
+        }
+
         if (collider2D.gameObject.TryGetComponent(out FuelPickUp fuelPickUp))
         {
             fuel += addFuel;
