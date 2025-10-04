@@ -21,14 +21,9 @@ public class BulletCannon : MonoBehaviour
         Destroy(gameObject, lifeTime);
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        Destroy(gameObject);
-    }
-
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.GetComponent<FuelPickUp>() != null || other.GetComponent<Coins>() != null || other.GetComponent<TowerDetection>() != null)
+        if (other.GetComponent<FuelPickUp>() != null || other.GetComponent<Coins>() != null || other.GetComponent<TowerDetection>() != null || other.GetComponent<BulletCannon>() != null)
         {
             Physics2D.IgnoreCollision(bulletCollider, other);
             return;
